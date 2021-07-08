@@ -1,15 +1,18 @@
 import Router from "express";
 import PostController from "./PostController.js";
-import todo from './modules/todo.js';
+import Todo from './modules/todo.js';
 
 // @ts-ignore
 const router = new Router();
 
-router.get('/', (req, res) =>
+router.get('/', async (req, res) =>
 {
-     res.render("index", {
-          title: 'To-dos List',
-          isIndex: true
+     const toDos = await Todo.find({}).lean();
+
+     res.render("index", { // рендер страницы index.html
+          title: 'To-dos List', // title в момент рендеринга страницы 
+          isIndex: true, // title в момент рендеринга страницы 
+          toDos // передаем массив как параметр на страницу
      })
 })
 router.get('/create', (req, res) =>
@@ -18,6 +21,27 @@ router.get('/create', (req, res) =>
           title: 'Create todo',
           isCreate: true
      })
+})
+
+router.post('/create', async (req, res) =>
+{
+     const toDo = new Todo({
+          title: req.body.title
+     })
+
+     await toDo.save() // создали модель
+     res.redirect("/")
+
+})
+
+router.post('/complete', async (req, res) =>
+{
+     const toDo = await Todo.findById(req.body.id)
+
+     toDo.completed = !!req.body.completed
+     await toDo.save()
+
+     res.redirect('/')
 })
 
 
