@@ -1,0 +1,21 @@
+<nav class="blue darken-4">
+  <div class="nav-wrapper">
+    <a href="/" class="brand-logo">Logo</a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+      {{#if isIndex}}
+        <li class="active"><a href="/">home</a></li>
+      {{else}}
+        <li><a href="/">home</a></li>
+      {{/if}}
+
+      {{#if isIndex}}
+        <li class="active"><a href="/create">create</a></li>
+      {{else}}
+        <li><a href="/create">create</a></li>
+      {{/if}}
+
+      <li><a href="collapsible.html">JavaScript</a></li>
+    </ul>
+  </div>
+</nav>
